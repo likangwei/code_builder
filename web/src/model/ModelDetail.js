@@ -17,8 +17,9 @@ export class ModelDetail extends Component{
         console.log(props)
         this.id = props.match.params.id
         this.state = {
-            data: {},
-            cols: [],
+            data: {
+                cols: []
+            },
         }
     }
 
@@ -72,7 +73,7 @@ export class ModelDetail extends Component{
     }
 
     addColumn(){
-        let cols = this.state.cols.slice()
+        let cols = this.state.data.cols.slice()
         let self = this
         cols.push({"name": ""})
         this.setState({cols: cols})
@@ -81,11 +82,11 @@ export class ModelDetail extends Component{
     render(){
         console.log("render", this.state)
 
-        let cols = this.state.cols
+        let cols = this.state.data.cols
         let colComp = []
         for (var i=0; i<cols.length; i++){
             colComp.push(
-                <ColumnForm data={cols[i]} />
+                <ColumnForm data={cols[i]} modelId={this.state.data.id} />
             )
         }
 

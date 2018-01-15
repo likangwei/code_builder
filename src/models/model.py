@@ -22,9 +22,25 @@ class SqlColumn(Base):
     comment = Column(String(1000))
     model_id = Column(Integer)
 
+    def as_json(self, session):
+        return {
+            "name": self.name,
+            "id": self.id,
+            "type": self.type,
+            "comment": self.comment,
+            "model_id": self.model_id
+        }
 
 class Model(Base):
     __tablename__ = 'model'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
+
+    def as_json(self, session):
+        cols = session.query(SqlColumn).filter(SqlColumn.model_id==self.id)
+        return {
+            "name": self.name,
+            "id": self.id,
+            "cols": [col.as_json(session) for col in cols]
+        }

@@ -35,10 +35,8 @@ def getModelList():
     models = session.query(Model).all()
     rst = []
     for m in models:
-        rst.append({
-            "id": m.id,
-            "name": m.name,
-        })
+        rst.append(m.as_json())
+
     return json.dumps({"success": True, "data": rst})
 
 
@@ -46,8 +44,4 @@ def getModelList():
 def fetchModel(id):
     session = Session()
     m = session.query(Model).get(id)
-    data = {
-        "id": m.id,
-        "name": m.name,
-    }
-    return json.dumps({"success": True, "data": data})
+    return json.dumps({"success": True, "data": m.as_json(session)})

@@ -1,0 +1,54 @@
+package api
+
+import (
+	"github.com/gin-gonic/gin"
+	"{{prject}}/models"
+	"{{prject}}/global"
+	"net/http"
+	"fmt"
+)
+
+func Init{{modelName}}Routes(router *gin.RouterGroup){
+
+	router.GET("/", func(c *gin.Context) {
+		{{objName}}s := make([]*models.{{modelName}}, 0, 10)
+		global.DB.Find(&{{objName}}s)
+		c.JSON(http.StatusOK, {{objName}}s)
+	})
+
+	router.GET("/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		{{objName}} := &models.{{modelName}}{}
+		global.DB.First({{objName}}, id)
+		c.JSON(http.StatusOK, gin.H{"success": true, "data": {{objName}}})
+	})
+
+	router.PUT("/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		{{objName}} := &models.{{modelName}}{}
+		global.DB.First({{objName}}, id)
+		c.BindJSON({{objName}})
+		global.DB.Save({{objName}})
+		c.JSON(http.StatusOK, gin.H{"success": true, "data": {{objName}}})
+	})
+
+	router.DELETE("/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		{{objName}} := &models.{{modelName}}{}
+		global.DB.First({{objName}}, id)
+		global.DB.Delete({{objName}})
+		c.JSON(http.StatusOK, gin.H{"success": true, "data": {{objName}}})
+	})
+
+	router.POST("/add", func(c *gin.Context){
+		{{objName}} := &models.{{modelName}}{}
+		err := c.BindJSON({{objName}})
+		fmt.Println("{{objName}}", {{objName}})
+		if err == nil{
+			global.DB.Save({{objName}})
+		}
+
+		c.JSON(http.StatusOK, gin.H{"success": err == nil, "data": {{objName}}})
+	})
+
+}

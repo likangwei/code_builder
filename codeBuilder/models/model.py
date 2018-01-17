@@ -6,11 +6,22 @@ from sqlalchemy.orm import sessionmaker
 
 some_engine = create_engine('mysql://root:root@localhost/codeBuilder?charset=utf8')
 Session = sessionmaker(bind=some_engine)
-session = Session()
-
 
 Base = declarative_base()
 metadata = Base.metadata
+
+from contextlib import contextmanager
+
+@contextmanager
+def get_session_scope():
+    try:
+        s = Session()
+        yield s
+        s.commit()
+    except:
+        s.rollback()
+    finally:
+        s.close()
 
 
 class SqlColumn(Base):

@@ -31,6 +31,8 @@ export class ModelList extends Component{
         let self = this
         getModelList(function(response){
             self.setState({data: response.data})
+        }, function (reason) {
+            console.log(reason)
         })
     }
 

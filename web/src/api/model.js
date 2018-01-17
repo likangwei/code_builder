@@ -29,3 +29,13 @@ export function getModelList(successCallback, failCallback) {
         failCallback(reason)
     })
 }
+
+export function buildCode(modelId, successCallback, failCallback){
+    let api = "/api/model/" + modelId + "/build"
+    axios.get(api).then(function (response) {
+        successCallback(response.data)
+    }).catch(function (reason) {
+        failCallback(reason)
+    })
+
+}

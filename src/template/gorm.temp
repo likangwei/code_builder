@@ -1,0 +1,5 @@
+type {{modelName}} struct {
+    gorm.Model
+    {% for col in cols %}{{col.name}} {{col.type}}
+    {% endfor %}
+}

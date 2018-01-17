@@ -5,10 +5,12 @@ import axios from 'axios';
 
 import {
     fetchModel,
-    saveModel
+    saveModel,
+    buildCode,
 } from '../api/model'
 
 import {ColumnForm} from '../column/ColumnDetail'
+import {CodeDialog} from './CodeDialog'
 
 export class ModelDetail extends Component{
 
@@ -20,6 +22,8 @@ export class ModelDetail extends Component{
             data: {
                 cols: []
             },
+            openDialog: false,
+            code: "",
         }
     }
 
@@ -72,6 +76,16 @@ export class ModelDetail extends Component{
         this.setState({data: data})
     }
 
+    BuildGormModel(){
+        let self = this
+        buildCode(this.id, function (response) {
+            console.log(response.data)
+            self.setState({openDialog: true, code: response.data})
+        }, function (reason) {
+            console.log(reason)
+        })
+    }
+
     addColumn(){
         let cols = this.state.data.cols.slice()
         let self = this
@@ -80,8 +94,7 @@ export class ModelDetail extends Component{
     }
 
     render(){
-        console.log("render", this.state)
-
+        console.log(this.state)
         let cols = this.state.data.cols
         let colComp = []
         for (var i=0; i<cols.length; i++){
@@ -102,7 +115,9 @@ export class ModelDetail extends Component{
                 />
                 <RaisedButton label="保存" onClick={()=>this.save()}/>
                 <RaisedButton label="添加字段" onClick={()=>this.addColumn()}/>
+                <RaisedButton label="生成Gorm Model" onClick={()=>this.BuildGormModel()}/>
                 {colComp}
+                <CodeDialog open={this.state.openDialog} data={this.state.code}/>
             </div>
         )
     }

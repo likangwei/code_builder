@@ -11,6 +11,19 @@ export function saveModel(model, successCallback, failCallback) {
 }
 
 
+export function saveOrUpdateModel(data, successCallback, failCallback) {
+    if(data.id == null || data.id == 0){
+        saveModel(data, successCallback, failCallback)
+    }else{
+        let api = "/api/model/" + data.id
+        axios.put(api, data).then(function (response) {
+            successCallback(response.data)
+        }).catch(function (reason) {
+            failCallback(reason)
+        })
+    }
+}
+
 export function fetchModel(id, successCallback, failCallback) {
     let api = "/api/model/" + id
     axios.get(api).then(function (response) {

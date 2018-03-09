@@ -44,6 +44,6 @@ class CodeBuilder(object):
                 col.name = col.name.capitalize()
                 col.type = m.get(col.type, "string")
 
-            rst = template.render(modelName=model.name.capitalize(),
+            rst = template.render(modelName=model.name,
                                   objName=model.name)
             return rst

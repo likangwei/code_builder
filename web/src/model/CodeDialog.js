@@ -6,6 +6,7 @@ import {withRouter} from "react-router-dom";
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {saveModel} from '../api/model'
+import {Tabs, Tab} from 'material-ui/Tabs';
 
 export class CodeDialog extends Component{
 
@@ -18,6 +19,7 @@ export class CodeDialog extends Component{
     }
 
     componentWillReceiveProps(props){
+        console.log("componentWillReceiveProps")
         this.setState({
             open: props.open,
             data: props.data,
@@ -35,8 +37,29 @@ export class CodeDialog extends Component{
     onTitleChange(text){
         this.setState({name: text})
     }
-
+     handleChange = (value) => {
+        this.setState({
+          value: value,
+        });
+      };
     render(){
+        let data = this.state.data
+        let tabs = []
+        for (var k in data){
+            tabs.push(
+                <Tab
+                  key={k}
+                  label={k} value={k}
+                 >
+                    <TextField
+                        style={{"width": "100%", "height": 10}}
+                        value={data[k]}
+                        multiLine={true}
+                        rowsMax={15}
+                    />
+                </Tab>
+            )
+        }
         const actions = [
       <FlatButton
         label="Ok"
@@ -47,16 +70,22 @@ export class CodeDialog extends Component{
     ];
        return (
         <Dialog
+          style={{"height":"80%"}}
           title="Dialog With Date Picker"
           actions={actions}
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
+          autoScrollBodyContent={true}
         >
-          <TextField
-            value={this.state.data}
-            multiLine={true}
-          />
+        <Tabs style={{"height":"500px"}}
+
+            value={this.state.value}
+            onChange={this.handleChange}
+          >
+        {tabs}
+        </Tabs>
+
         </Dialog>
         );
     }

@@ -6,6 +6,7 @@ import axios from 'axios';
 import {
     fetchModel,
     saveModel,
+    saveOrUpdateModel,
     buildCode,
 } from '../api/model'
 
@@ -49,7 +50,7 @@ export class ModelDetail extends Component{
 
     save(){
         let self = this
-        saveModel(this.state.data, function (response) {
+        saveOrUpdateModel(this.state.data, function (response) {
             self.setState(response.data)
         }, function (reason) {
             console.log(reason)
@@ -89,8 +90,9 @@ export class ModelDetail extends Component{
     addColumn(){
         let cols = this.state.data.cols.slice()
         let self = this
-        cols.push({"name": ""})
-        this.setState({cols: cols})
+        cols.push({"name": "", "model_id": this.state.data.id})
+        this.state.data["cols"] = cols
+        this.setState({data: this.state.data})
     }
 
     render(){
@@ -102,7 +104,7 @@ export class ModelDetail extends Component{
                 <ColumnForm data={cols[i]} modelId={this.state.data.id} />
             )
         }
-
+        console.log(colComp)
         return (
             <div>
                 <TextField

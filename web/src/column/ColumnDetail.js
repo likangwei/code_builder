@@ -16,8 +16,9 @@ export class ColumnForm extends Component{
     }
 
     save(){
+        let self = this
         saveOrUpdateColumn(this.state.data, function (response) {
-
+            this.setState({data: response.data.data})
         }, function (reason) {
             console.log(reason)
         })

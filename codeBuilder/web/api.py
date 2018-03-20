@@ -4,17 +4,13 @@ import json
 
 from flask import g
 from flask import request
+from flask import render_template
 
 from codeBuilder.models.model import get_session_scope
 from codeBuilder.models.model import Model
 from codeBuilder.models.model import SqlColumn
 from flask import g
 from codeBuilder.builders.code_builder import CodeBuilder
-
-@app.route("/")
-def hello():
-    return "Hello World!"
-
 
 @app.route("/api/model/add", methods=["post"])
 def addModel():

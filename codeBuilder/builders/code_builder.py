@@ -47,3 +47,24 @@ class CodeBuilder(object):
             rst = template.render(modelName=model.name,
                                   objName=model.name)
             return rst
+
+    @classmethod
+    def buildRestJs(cls, model):
+        with get_session_scope() as session:
+            cols = session.query(SqlColumn).filter(SqlColumn.model_id == model.id).all()
+            template = env.get_template('js.temp')
+            m = {
+                "int": "int",
+                "text": "string",
+                "date": "time.Time",
+            }
+            for col in cols:
+                col.name = col.name.capitalize()
+                col.type = m.get(col.type, "string")
+            urlName = model.name.lower()
+            objName = model.name[0].lower() + model.name[1:]
+            rst = template.render(modelName=model.name,
+                                  urlName=urlName,
+                                  objName=objName,
+                                  )
+            return rst

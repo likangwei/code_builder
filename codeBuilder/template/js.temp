@@ -1,0 +1,55 @@
+import axios from 'axios';
+
+
+
+export function getAll{{modelName}}s({{objName}}, failCallback){
+    axios.get( "/api/{{urlName}}").then(function(resp) {
+        sucCallback(resp.data)
+    }).catch(function (reason) {
+        failCallback(reason)
+    })
+}
+
+export function get{{modelName}}(id, succCallback, failCallback){
+    let url = "/api/{{urlName}}/" + id
+    axios.get(url).then(function (resp) {
+        succCallback(resp.data)
+    }).catch(function (reason) {
+        failCallback(reason)
+    })
+}
+
+export function edit{{modelName}}(data, successCallback, failCallback){
+    let url = "/api/{{urlName}}/" + data.ID
+    axios.put(url, data)
+        .then(function (resp) {
+            successCallback(resp.data)
+        })
+        .catch(function (reason) {
+            failCallback(reason)
+        }
+    )
+}
+
+export function addNew{{modelName}}(data, successCallback, failCallback) {
+    let url = "/api/{{urlName}}/"
+    axios.post(url, data).then(function (response) {
+        successCallback(response.data)
+    }).catch(function (reason) {
+        failCallback(reason)
+    })
+}
+
+
+export function del{{modelName}}(id, successCallback, failCallback){
+    let url = "/api/{{urlName}}/" + id
+
+    axios.delete(url)
+        .then(function (resp) {
+            successCallback(resp.data)
+        })
+        .catch(function (reason) {
+            failCallback(reason)
+        }
+    )
+}

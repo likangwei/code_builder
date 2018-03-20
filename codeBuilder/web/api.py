@@ -63,8 +63,10 @@ def buildCode(id):
         m = session.query(Model).get(id)
         ginApi = CodeBuilder.buildGinApi(m)
         gormModel = CodeBuilder.buildGormModel(m)
+        js = CodeBuilder.buildRestJs(m)
         data = {
             "ginApi": ginApi,
             "gormModel": gormModel,
+            "js": js,
         }
         return json.dumps({"success": True, "data": data})

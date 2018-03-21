@@ -4,7 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-some_engine = create_engine('mysql://root:root@localhost/codeBuilder?charset=utf8')
+from codeBuilder.config import DB
+some_engine = create_engine(DB)
 Session = sessionmaker(bind=some_engine)
 
 Base = declarative_base()

@@ -14,6 +14,7 @@ import {
     Link
 } from 'react-router-dom';
 
+import CurlToCode from './CurlToCode'
 
 
 
@@ -25,10 +26,13 @@ class App extends Component {
           <div>
               <Drawer open={true}>
                 <MenuItem><Link to="/models">模型</Link></MenuItem>
+                <MenuItem><Link to="/curl-to-code">CurlToCode</Link></MenuItem>
               </Drawer>
+
               <div style={{"marginLeft": "280px", "height": "100%"}}>
                 <Route path="/models" component={ModelList} />
                 <Route path="/model/:id" component={ModelDetail} />
+                <Route path="/curl-to-code" component={CurlToCode} />
               </div>
           </div>
 

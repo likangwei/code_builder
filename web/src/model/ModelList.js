@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
-import {withRouter} from "react-router-dom";
 import {
     Table,
     TableBody,
@@ -11,6 +10,13 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+    withRouter
+} from 'react-router-dom'
 
 import {ModelDetail} from './ModelDetail'
 import {ModelAddForm} from './ModelAddForm'
@@ -52,7 +58,7 @@ export class ModelList extends Component{
 
         for (var i=0; i<data.length; i++){
             let cell = data[i]
-            let id = <a href={"/model/" + cell.id}>{cell.name}</a>
+            let id = <Link to={"/model/" + cell.id}>{cell.name}</Link>
             let btns = [
                 <RaisedButton label="Del" onClick={()=>this.delete(cell.ID)}/>
             ]

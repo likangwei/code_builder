@@ -40,7 +40,7 @@ func Init{{modelName}}Routes(router *gin.RouterGroup){
 		c.JSON(http.StatusOK, gin.H{"success": true, "data": {{objName}}})
 	})
 
-	router.POST("/add", func(c *gin.Context){
+	router.POST("/", func(c *gin.Context){
 		{{objName}} := &models.{{modelName}}{}
 		err := c.BindJSON({{objName}})
 		fmt.Println("{{objName}}", {{objName}})
